@@ -17,6 +17,18 @@
             XmlElement operator[] hinzugefuegt
             XmlElement firstChildElelemt hinzugefuegt
             Xml rootElement hiznugefuegt
+ 15.06.2016
+            Vermeindlichen CopyCtor hinzugeufuegt
+            print() -> print() const
+ 15.08.2016
+            Aus der Engine in CppGui kopiert
+ 22.08.2016
+            Array Zugriffsoperator der Xml-Klasse ueberladen,
+            Kommentare hinzugefuegt, die Array Zugriffsoperator callen jetzt
+            die firstChild-Funktion ihrer Klasse.
+            Konvertierungs Funktionen toFloat, toInt hinzugefuegt
+            ----------------------------------------------------------
+            XmlAttribute-Klasse hinzugefuegt
 11.09.2016
             Als git submodule hinzugefuegt
             EngineType.h dependency removed
@@ -40,200 +52,270 @@
 #include <iostream>
 
 #include "tinyxml2/tinyxml2.h"
+ 
 
 
-
-class XmlElement
-{
-using namespace tinyxml2;
-using filepath = std::string;
-public:
-    XmlElement(XMLElement& rhs)
+    class XmlAttribute
     {
-        mNode = &rhs;
-    }
+        using namespace tinyxml2;
+        using namespace std;
+    };
 
-
-    /**********************************************
-     *Descr:    Conversion Constructor fuer XMLElement Ptr die von allen tinyxml2 funktionen zurueckgegeben werden,
-                die mit XMLElelemt arbeiten
-     *Param1:   Pointer auf ein XMLElement
-     ***********************************************/
-    XmlElement(XMLElement* rhs)
+    
+    class XmlElement
     {
-        mNode = rhs;
-    }
-
-
-    /**********************************************
-     *Descr:    Wert einer XML Node setzen
-     *Param1:   Wert der gesetzt werden soll;
-     ***********************************************/
-    void setValue(const std::string& value)
-    {
-        mNode->SetText(value.c_str());
-    }
-    void setValue(const double value)
-    {
-        setValue(std::to_string(value));
-    }
-    void setValue(const int value)
-    {
-         setValue(std::to_string(value));
-    }
-
-
-    /**********************************************
-     *Descr:    Funktion um auf Elementinhalt zu zugreifen
-     *Ret:      Falls mNode == nullptr -> leerer String, sonst Inhalt des Elements
-     ***********************************************/
-    std::string getValue() const
-    {
-        if(mNode != nullptr)
-        {
-            return mNode->GetText();
-        }
-        return "";
-    }
-
-
-    /**********************************************
-     *Descr:    Funktion um auf Namen einer Node zu aendern
-     ***********************************************/
-    void setName(const std::string& name)
-    {
-        if(mNode != nullptr)
-        {
-            mNode->SetName(name.c_str());
-        }
-
-    }
-
-
-    /**********************************************
-     *Descr:    Funktion um auf Nodename zu zugreifen
-     *Ret:      Falls mNode == nullptr -> leerer String, sonst Name der Node auf die gezeigt wird
-     ***********************************************/
-    std::string getNodeName() const
-    {
-        if(mNode != nullptr)
-        {
-            return mNode->Value();
-        }
-        return "";
-    }
-
-
-    /**********************************************
-     *Descr:    Setzt den mNode auf das naechste Xml Element auf gleicher Ebene.
-     *Ret:      Das naechste Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
-     ***********************************************/
-    XmlElement& operator++()
-    {
-        mNode = mNode->NextSiblingElement();
-        return *this;
-    }
-
-
-    /**********************************************
-     *Descr:    Setzt den mNode auf das vorherige Xml Element auf gleicher Ebene.
-     *Ret:      Das voherige Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
-     ***********************************************/
-    XmlElement& operator--()
-    {
-        mNode = mNode->PreviousSiblingElement();
-        return *this;
-    }
-
-
-    /**********************************************
-     *Descr:    Checkt ob mNode auf ein Xml Element zeigt
-     *Ret:      True falls auf ein Element gezeigt wird, sonst false.
-     ***********************************************/
-    bool isNotNull() const
-    {
-        if(mNode == nullptr)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    XmlElement firstChildElement(const std::string& ident = "")
-    {
-        return mNode->FirstChildElement(ident.c_str());
-    }
-
-    XmlElement operator[](const std::string& ident)
-    {
-        return mNode->FirstChildElement(ident.c_str());
-    }
+        using namespace tinyxml2;
+        using namespace std;
     public:
-    XMLElement* mNode;
-
-};
-
-
-
-class Xml
-{
-using namespace tinyxml2;
-using filepath = std::string;
-public:
-    /**********************************************
-     *Descr:   Konstruktor um ein Xml Dokument zu laden
-     ***********************************************/
-    Xml(filepath filepath) : mPath(filepath)
-    {
-                       
-        Checkt ob das Dokument geladen werden konnte
-        if(mDoc.LoadFile(filepath.c_str()) == XML_NO_ERROR)
+        XmlElement(XMLElement& rhs)
         {
-            // std::cerr << "Die Datei:" << filepath << " konnte GELADEN werden" << std::endl;
-
-            //                if(mDoc.Parse(filepath.c_str()) == XML_NO_ERROR)
-            //                {
-            //
-            //                }
-            //                else
-            //                {
-            //                    std::cerr << "Die Datei:" << filepath << " konnte nicht GEPARSED werden" << std::endl;
-            //                    std::cerr << mDoc.GetErrorStr1() << std::endl;
-            //                    std::cerr << mDoc.GetErrorStr2() << std::endl;
-            //                }
+            mNode = &rhs;
         }
-        else
+        
+        
+        /**********************************************
+         *Descr:    Conversion Constructor fuer XMLElement Ptr die von allen tinyxml2 funktionen zurueckgegeben werden,
+                    die mit XMLElelemt arbeiten
+         *Param1:   Pointer auf ein XMLElement
+         ***********************************************/
+        XmlElement(XMLElement* rhs)
         {
-            std::cerr << "Die Datei:" << filepath << " konnte nicht GELADEN werden" << std::endl;
-            Programm beenden
-            exit(-1);
+            mNode = rhs;
         }
-    }
+        
+        
+        /**********************************************
+         *Descr:    Wert einer XML Node setzen
+         *Param1:   Wert der gesetzt werden soll;
+         ***********************************************/
+        void setValue(const std::string& value)
+        {
+            mNode->SetText(value.c_str());
+        }
+        void setValue(const double value)
+        {
+            setValue(std::to_string(value));
+        }
+        void setValue(const int value)
+        {
+             setValue(std::to_string(value));
+        }
+        
+        
+        /**********************************************
+         *Descr:    Funktion um auf Elementinhalt zu zugreifen
+         *Ret:      Falls mNode == nullptr -> leerer String, sonst Inhalt des Elements
+         ***********************************************/
+        std::string getValue() const
+        {
+            if(mNode != nullptr)
+            {
+                return mNode->GetText();
+            }
+            return "";
+        }
+        
+        
+        /**********************************************
+         *Descr:    Funktion um auf Namen einer Node zu aendern
+         ***********************************************/
+        void setName(const std::string& name)
+        {
+            if(mNode != nullptr)
+            {
+                mNode->SetName(name.c_str());
+            }
+            
+        }
+        
+        
+        /**********************************************
+         *Descr:    Funktion um auf Nodename zu zugreifen
+         *Ret:      Falls mNode == nullptr -> leerer String, sonst Name der Node auf die gezeigt wird
+         ***********************************************/
+        std::string getNodeName() const
+        {
+            if(mNode != nullptr)
+            {
+                return mNode->Value();
+            }
+            return "";
+        }
+        
+        
+        /**********************************************
+         *Descr:    Setzt den mNode auf das naechste Xml Element auf gleicher Ebene.
+         *Ret:      Das naechste Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
+         ***********************************************/
+        XmlElement& operator++()
+        {
+            mNode = mNode->NextSiblingElement();
+            return *this;
+        }
+        
+        
+        /**********************************************
+         *Descr:    Setzt den mNode auf das vorherige Xml Element auf gleicher Ebene.
+         *Ret:      Das voherige Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
+         ***********************************************/
+        XmlElement& operator--()
+        {
+            mNode = mNode->PreviousSiblingElement();
+            return *this;
+        }
+        
+        
+        /**********************************************
+         *Descr:    Checkt ob mNode auf ein Xml Element zeigt
+         *Ret:      True falls auf ein Element gezeigt wird, sonst false.
+         ***********************************************/
+        bool isNotNull() const
+        {
+            if(mNode == nullptr)
+            {
+                return false;
+            }
+            return true;
+        }
 
 
-    /**********************************************
-     *Descr:    Gibt das ganze Xml Dokument aus
-     ***********************************************/
-    void print()
-    {
-        mDoc.Print();
-    }
-    /**********************************************
-     *Descr:    Speichert das XmlDokument
-     ***********************************************/
-    bool saveFile()
-    {
-        mDoc.SaveFile(mPath.c_str());
-    }
+        /**********************************************
+        *Descr:    Wenn kein Argument mitgegeben wurde dann gibt die Funktion das erste 
+                   Element des Baums zurueck, sonst das Element der derzeitigen Ebene mit dem uebergebenen Identifier.  
+        *Param1:   Zu suchen Identifier
+        *Ret:      Referenz auf das Element mit Namen ident
+        ***********************************************/
+        XmlElement firstChildElement(const std::string& ident = "")
+        {
+            return mNode->FirstChildElement(ident.c_str());
+        }
+        
 
+        /**********************************************
+        *Descr:    Wenn kein Argument mitgegeben wurde dann gibt die Funktion das erste 
+                   Element des Baums zurueck, sonst das Element der derzeitigen Ebene mit dem uebergebenen Identifier.  
+        *Param1:   Zu suchen Identifier
+        *Ret:      Referenz auf das Element mit Namen ident
+        ***********************************************/
+        XmlElement operator[](const std::string& ident )
+        {
+            return firstChildElement(ident);
+        }
 
-    XmlElement rootElement()
-    {
-        XmlElement temp = mDoc.RootElement();
-        return temp.mNode;
-    }
+         /**********************************************
+        *Descr:    Konvertiert den derzeitigen Xml-Wert der ein Strings ist zu einem Float  
+        *Ret:      Wert als float
+        ***********************************************/
+        float toFloat()
+        {
+            return std::stof(getValue());
+        }
+        /**********************************************
+        *Descr:    Konvertiert den derzeitigen Xml-Wert der ein Strings ist zu einem int  
+        *Ret:      Wert als int
+        ***********************************************/
+        int toInt()
+        {
+            return std::stoi(getValue());
+        }
     public:
-    XMLDocument mDoc;
-    filepath mPath;
-};
+        XMLElement* mNode;
+       
+    };
+    
+    
+    
+    class Xml
+    {
+    using namespace tinyxml2;
+    using namespace std;
+    public:
+        /**********************************************
+         *Descr:   Konstruktor um ein Xml Dokument zu laden
+         ***********************************************/
+        Xml(filepath filepath) : mPath(filepath)
+        {
+            //Checkt ob das Dokument geladen werden konnte
+            if(mDoc.LoadFile(filepath.c_str()) == XML_NO_ERROR)
+            {
+            //                    if(mDoc.Parse(filepath.c_str()) == XML_NO_ERROR)
+            //                    {
+                
+            //                    }
+            //                    else
+            //                    {
+            //                        std::cerr << "Die Datei:" << filepath << " konnte nicht GEPARSED werden" <<"|Error:"<< mDoc.ErrorID() <<std::endl;
+                                  
+            //                    }
+            }
+            else
+            {
+                std::cerr << "Die Datei:" << filepath.c_str() << " konnte nicht GELADEN werden" <<"|Error:"<< mDoc.ErrorID() <<std::endl;
+                //Programm beenden
+                exit(-1);
+            }
+        }
+        ~Xml()
+        {
+            ;
+        }
+        /**********************************************
+        *Descr:    Copy Konstruktor
+        ***********************************************/
+//        Xml(const Xml& rhs) :
+//        mPath(rhs.mPath)
+//        {
+//            mDoc.s   rhs.mDoc.GetDocument();
+//            print();
+//        }
+        
+        
+        /**********************************************
+         *Descr:    Gibt das ganze Xml Dokument aus
+         ***********************************************/
+        void print() const
+        {
+            mDoc.Print();
+        }
+        /**********************************************
+         *Descr:    Speichert das XmlDokument
+         ***********************************************/
+        bool saveFile()
+        {
+            mDoc.SaveFile(mPath.c_str());
+        }
+       
+        
+        XmlElement rootElement()
+        {
+            XmlElement temp = mDoc.RootElement();
+            return temp.mNode;
+        }
+        /**********************************************
+        *Descr:    Wenn kein Argument mitgegeben wurde dann gibt die Funktion das erste 
+                   Element des Baums zurueck, sonst das Element der derzeitigen Ebene mit dem uebergebenen Identifier.  
+        *Param1:   Zu suchen Identifier
+        *Ret:      Referenz auf das Element mit Namen ident
+        ***********************************************/
+        XmlElement firstChildElement(const std::string& ident = "")
+        {
+            return mDoc.FirstChildElement(ident.c_str());
+        }
 
+        /**********************************************
+        *Descr:    Wenn kein Argument mitgegeben wurde dann gibt die Funktion das erste 
+                   Element des Baums zurueck, sonst das Element der derzeitigen Ebene mit dem uebergebenen Identifier.  
+        *Param1:   Zu suchen Identifier
+        *Ret:      Referenz auf das Element mit Namen ident
+        ***********************************************/
+        XmlElement operator[](const std::string& ident)
+        {
+            return firstChildElement(ident);
+        }
+    public:
+        XMLDocument mDoc;
+        filepath mPath;
+    };
+
+
+   
