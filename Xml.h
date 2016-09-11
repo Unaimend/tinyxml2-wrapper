@@ -21,6 +21,8 @@
             Als git submodule hinzugefuegt
             EngineType.h dependency removed
             Removed eng namespace
+            Fixed indentation
+            Moved using statements from global to local scope
 
  *TODO:
             Warum funktioniert der Parse Check nicht?
@@ -41,11 +43,10 @@
 
 
 
-
-using namespace tinyxml2;
-using filepath = std::string;
 class XmlElement
 {
+using namespace tinyxml2;
+using filepath = std::string;
 public:
     XmlElement(XMLElement& rhs)
     {
@@ -176,6 +177,8 @@ public:
 
 class Xml
 {
+using namespace tinyxml2;
+using filepath = std::string;
 public:
     /**********************************************
      *Descr:   Konstruktor um ein Xml Dokument zu laden
