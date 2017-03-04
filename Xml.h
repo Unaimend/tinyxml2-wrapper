@@ -45,7 +45,7 @@
 #include <string>
 #include <iostream>
 
-#include "tinyxml2.h"
+#include "tinyxml2/tinyxml2.h"
 
 
 namespace eng
@@ -197,7 +197,8 @@ namespace eng
         Xml(filepath filepath) : mPath(filepath)
         {
             //Checkt ob das Dokument geladen werden konnte
-            if(mDoc.LoadFile(filepath.c_str()) == XML_NO_ERROR)
+
+            if(mDoc.LoadFile(filepath.c_str())  != XML_ERROR_FILE_NOT_FOUND)
             {
                 std::cout << "Die Datei:" << filepath << " ERFOLGREICH geladen werden" << std::endl;
             }
