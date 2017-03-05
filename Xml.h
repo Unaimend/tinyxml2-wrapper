@@ -200,6 +200,7 @@ namespace eng
 
             if(mDoc.LoadFile(filepath.c_str())  != XML_ERROR_FILE_NOT_FOUND)
             {
+                //TODO Sowohl bei Erfolg als auch bei Fehler sollte keine Nachricht aussgegeben sondern was anderes gemacht werden
                 std::cout << "Die Datei:" << filepath << " ERFOLGREICH geladen werden" << std::endl;
             }
             else
