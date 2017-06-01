@@ -2,3 +2,6 @@ CMakeFiles/*
 test_*
 .idea/*
 Makefile
+cmake_install*
+CMakeCache*
+CTest*
