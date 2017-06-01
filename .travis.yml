@@ -8,3 +8,6 @@ before_script:
       cmake CMakeLists.txt
 
 script: make  
+
+after_script:
+      ./test_tinyxml2_wrapper
