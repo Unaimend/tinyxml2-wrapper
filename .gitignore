@@ -1,0 +1,4 @@
+CMakeFiles/*
+test_*
+.idea/*
+Makefile
