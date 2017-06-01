@@ -40,6 +40,9 @@
             wie soll das behandelt werden?gar nichts tun? oder Fehlermeldung? Gute Behandlung ausdenken!
             toInt(), toDouble(), to... implementieren.
             CopyCtr, copy assign ctor fuer XmlElement. Xml schreiben falls moeglich, vielleicht auch den move ctor
+            Xml Arguemnts support
+            Tests prorammieren
+            Component Xml iterieren
  *************************************/
 #pragma once
 #include <string>
