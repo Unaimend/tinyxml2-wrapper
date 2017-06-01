@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 2.8.7)
 project (test_tinyxml2_wrapper)
 SET(CMAKE_CXX_FLAGS "-std=c++14 -O3 -Wall" )
 
