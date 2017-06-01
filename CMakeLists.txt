@@ -5,6 +5,5 @@ SET(CMAKE_CXX_FLAGS "-std=c++14 -O3 -Wall" )
 include_directories(tinyxml2/*.h)
 include_directories(*.h)
 
-
-
 add_executable(test_tinyxml2_wrapper  tinyxml2/tinyxml2.cpp test.cpp catch.h)
+
