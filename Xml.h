@@ -44,6 +44,12 @@
             Tests prorammieren
             Component Xml iterieren
  *************************************/
+
+/***************************************************
+ *
+ ***************************************************/
+
+
 #pragma once
 #include <string>
 #include <iostream>
@@ -121,7 +127,7 @@ namespace eng
          *Descr:    Funktion um auf Nodename zu zugreifen
          *Ret:      Falls mNode == nullptr -> leerer String, sonst Name der Node auf die gezeigt wird
          ***********************************************/
-        const std::string getNodeName() const
+        const std::string getElemName() const
         {
             if(mNode != nullptr)
             {
@@ -167,22 +173,27 @@ namespace eng
         }
 
         /**********************************************
-        *Descr:    Checkt ob mNode auf ein Xml Element zeigt
-        *Ret:      True falls auf ein Element gezeigt wird, sonst false.
         ***********************************************/
         const XmlElement firstChildElement(const std::string& ident = "") const
         {
+            //Um die funktionsweise von tinyXml2 zu simulieren
+            //muss beim Fehlen eines Elem. Names eine 0 uebergeben werden.
+            if(ident == "")
+                return mNode->FirstChildElement(nullptr);
             return mNode->FirstChildElement(ident.c_str());
         }
 
 
         /**********************************************
-        *Descr:    Checkt ob mNode auf ein Xml Element zeigt
-        *Ret:      True falls auf ein Element gezeigt wird, sonst false.
         ***********************************************/
         const XmlElement operator[](const std::string& ident) const
         {
             return firstChildElement(ident);
+        }
+
+        XMLElement* getXMLElement()
+        {
+            return mNode;
         }
     private:
         XMLElement* mNode;
@@ -190,13 +201,24 @@ namespace eng
     };
     
     
-    
+
+    /******************************************************************************************************************************************
+    *******************************************************************************************************************************************
+    *******************************************************************************************************************************************/
     class Xml
     {
     public:
-        /**********************************************
+
+        /***************************************************
+         *Descr: Standart Konstruktor, zum initialiseren der Klasese wird in disem Fall
+         *die init() Methode verwendet
+         *
+        ***************************************************/
+        Xml() {}
+
+        /**************************************************
          *Descr:   Konstruktor um ein Xml Dokument zu laden
-         ***********************************************/
+         *************************************************/
         Xml(filepath filepath) : mPath(filepath)
         {
             //Checkt ob das Dokument geladen werden konnte
@@ -213,6 +235,23 @@ namespace eng
                 exit(-1);
             }
         }
+
+
+        bool init(filepath filepath)
+        {
+            //Checkt ob das Dokument geladen werden konnte
+            if(mDoc.LoadFile(filepath.c_str()) != XML_ERROR_FILE_NOT_FOUND)
+            {
+                mPath = filepath;
+                //TODO Sowohl bei Erfolg als auch bei Fehler sollte keine Nachricht aussgegeben sondern was anderes gemacht werden
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /**********************************************
         *Descr:    Copy Konstruktor
         ***********************************************/
@@ -250,7 +289,7 @@ namespace eng
         *</options>
         *Returnwert waere options
         ***********************************************/
-        const XmlElement rootElement()
+         XmlElement rootElement()
         {
             XmlElement temp = mDoc.RootElement();
             return temp;
@@ -264,7 +303,7 @@ namespace eng
 
     private:
         XMLDocument mDoc;
-        filepath mPath;
+        std::string mPath;
     };
 }
 

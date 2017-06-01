@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.9)
-project (Engine)
+project (test_tinyxml2_wrapper)
 SET(CMAKE_CXX_FLAGS "-std=c++14 -O3 -Wall" )
 
 include_directories(tinyxml2/*.h)
 include_directories(*.h)
 
 
-file(GLOB SOURCES "tinyxml2/*.cpp")
-add_executable(Engine ${SOURCES})
+
+add_executable(test_tinyxml2_wrapper  tinyxml2/tinyxml2.cpp test.cpp catch.h)
