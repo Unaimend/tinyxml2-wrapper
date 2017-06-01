@@ -59,5 +59,10 @@ TEST_CASE("XML TEST","[xml]")
         REQUIRE(tinyElem->Name() == myElem.getElemName());
     }
 
+    SECTION("Test to brake Travis CI")
+    {
+        REQUIRE(1 == 2);
+    }
+
 
 }
