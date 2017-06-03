@@ -5,3 +5,7 @@ Makefile
 cmake_install*
 CMakeCache*
 CTest*
+
+docs/\.DS_Store
+
+\.DS_Store
