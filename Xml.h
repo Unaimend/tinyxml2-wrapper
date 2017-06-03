@@ -63,14 +63,14 @@ namespace eng
 
     using  filepath = const std::string&;
     using int32 = int_fast32_t;
-
+    /*! A test class, document with cmake*/
     class XmlElement
     {
     public:
-        /**********************************************
-         *Descr:    Conversion Constructor fuer XMLElement Ptr die von allen tinyxml2 funktionen zurueckgegeben werden,
+        /********************************************//**
+         *Conversion Constructor fuer XMLElement Ptr die von allen tinyxml2 funktionen zurueckgegeben werden,
                     die mit XMLElelement arbeiten
-         *Param1:   Pointer auf ein XMLElement
+         *@param   Pointer auf ein XMLElement
          ***********************************************/
         XmlElement(XMLElement* rhs)
         {
@@ -78,9 +78,9 @@ namespace eng
         }
 
         
-        /**********************************************
-         *Descr:    Wert einer XML Node setzen
-         *Param1:   Wert der gesetzt werden soll;
+        /********************************************//**
+         *Wert einer XML Node setzen
+         *@param   Wert der gesetzt werden soll;
          ***********************************************/
         void setValue(const std::string& value)
         {
@@ -96,9 +96,9 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Funktion um auf Elementinhalt zu zugreifen
-         *Ret:      Falls mNode == nullptr -> leerer String, sonst Inhalt des Elements
+        /**********************************************//**
+         *Funktion um auf Elementinhalt zu zugreifen
+         *\return Falls mNode == nullptr -> leerer String, sonst Inhalt des Elements
          ***********************************************/
         const std::string getValue() const
         {
@@ -110,8 +110,8 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Funktion um auf Namen einer Node zu aendern
+        /**********************************************//**
+         *Funktion um auf Namen einer Node zu aendern
          ***********************************************/
         void setName(const std::string& name)
         {
@@ -123,9 +123,9 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Funktion um auf Nodename zu zugreifen
-         *Ret:      Falls mNode == nullptr -> leerer String, sonst Name der Node auf die gezeigt wird
+        /*********************************************//**
+         *Funktion um auf Nodename zu zugreifen
+         *\return Falls mNode == nullptr -> leerer String, sonst Name der Node auf die gezeigt wird
          ***********************************************/
         const std::string getElemName() const
         {
@@ -137,9 +137,9 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Setzt den mNode auf das naechste Xml Element auf gleicher Ebene.
-         *Ret:      Das naechste Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
+        /**********************************************//**
+         *Setzt den mNode auf das naechste Xml Element auf gleicher Ebene.
+         *\return Das naechste Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
          ***********************************************/
         XmlElement& operator++()
         {
@@ -148,9 +148,9 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Setzt den mNode auf das vorherige Xml Element auf gleicher Ebene.
-         *Ret:      Das voherige Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
+        /**********************************************//**
+         *Setzt den mNode auf das vorherige Xml Element auf gleicher Ebene.
+         *\return Das voherige Element auf gleicher Ebene, falls keine Element vorhanden ist wird mNode zu einen nullptr
          ***********************************************/
         XmlElement& operator--()
         {
@@ -159,9 +159,9 @@ namespace eng
         }
         
         
-        /**********************************************
-         *Descr:    Checkt ob mNode auf ein Xml Element zeigt
-         *Ret:      True falls auf ein Element gezeigt wird, sonst false.
+        /********************************************//**
+         *Checkt ob mNode auf ein Xml Element zeigt
+         *\return True falls auf ein Element gezeigt wird, sonst false.
          ***********************************************/
         bool isNotNull() const
         {
@@ -172,7 +172,7 @@ namespace eng
             return true;
         }
 
-        /**********************************************
+        /********************************************//**
         ***********************************************/
         const XmlElement firstChildElement(const std::string& ident = "") const
         {
@@ -184,13 +184,15 @@ namespace eng
         }
 
 
-        /**********************************************
+        /********************************************//**
         ***********************************************/
         const XmlElement operator[](const std::string& ident) const
         {
             return firstChildElement(ident);
         }
 
+        /********************************************//**
+        ***********************************************/
         XMLElement* getXMLElement()
         {
             return mNode;
@@ -205,19 +207,24 @@ namespace eng
     /******************************************************************************************************************************************
     *******************************************************************************************************************************************
     *******************************************************************************************************************************************/
+
+    /*!Klasse zum einfacheren Verwalten von XML Dateien
+    
+    Diese Klasse ermöglicht das Öffnen, Schließen und Bearbeiten vom XML Dateien
+
+    */
     class Xml
     {
     public:
 
-        /***************************************************
-         *Descr: Standart Konstruktor, zum initialiseren der Klasese wird in disem Fall
+        /*************************************************//**
+         *Standart Konstruktor, zum initialiseren der Klasese wird in disem Fall
          *die init() Methode verwendet
-         *
         ***************************************************/
         Xml() {}
 
-        /**************************************************
-         *Descr:   Konstruktor um ein Xml Dokument zu laden
+        /************************************************//**
+         *Konstruktor um ein Xml Dokument zu laden
          *************************************************/
         Xml(filepath filepath) : mPath(filepath)
         {
@@ -253,7 +260,7 @@ namespace eng
         }
 
         /**********************************************
-        *Descr:    Copy Konstruktor
+        *Copy Konstruktor
         ***********************************************/
 //        Xml(const Xml& rhs) :
 //        mPath(rhs.mPath)
@@ -263,15 +270,15 @@ namespace eng
 //        }
         
         
-        /**********************************************
-         *Descr:    Gibt das ganze Xml Dokument aus
+        /********************************************//**
+         *Gibt das ganze Xml Dokument aus
          ***********************************************/
         void print() const
         {
             mDoc.Print();
         }
-        /**********************************************
-         *Descr:    Speichert das XmlDokument
+        /********************************************//**
+         *    Speichert das XmlDokument
          ***********************************************/
         bool saveFile()
         {
@@ -280,8 +287,8 @@ namespace eng
         }
 
         /**********************************************
-        *Descr:    Gibts das rootElement zurueck
-        *Return    RootElement aka das Element auf hoechster Ebene
+        *Gibt das rootElement zurueck
+        *\return RootElement aka das Element auf hoechster Ebene
         *Beispiel
         *<options>
         *     <resX>1920</resX>
