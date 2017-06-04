@@ -7,3 +7,11 @@ include_directories(*.h)
 
 add_executable(test_tinyxml2_wrapper  tinyxml2/tinyxml2.cpp test.cpp catch.h)
 
+# add a target to generate API documentation with Doxygen
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+add_custom_target(doc
+COMMAND sh run_doxy
+)
+endif(DOXYGEN_FOUND)
+
