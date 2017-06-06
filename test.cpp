@@ -14,10 +14,20 @@ unsigned int Factorial( unsigned int number ) {
 //    REQUIRE( Factorial(10) == 3628800 );
 //}
 
+/*
+ * To test:
+ * Neuladen von xml dateien
+ * Verädern von xml dateien
+ */
+
 
 using namespace eng;
 TEST_CASE("XML TEST","[xml]")
 {
+
+    /***********************************************************************************************
+     * Test für ....
+     ************************************************************************************************/
     Xml file;
     REQUIRE(file.init("testfiles/test1.xml") == true);
     SECTION("checking rootElemt function")
@@ -57,7 +67,40 @@ TEST_CASE("XML TEST","[xml]")
         XmlElement myElem = file.rootElement().firstChildElement("fullscreen");
         //fullscreen == fullscreen?
         REQUIRE(tinyElem->Name() == myElem.getElemName());
+
+        SECTION("checking the the elem.Values are the same")
+        {
+            //true ==  true?
+            REQUIRE(tinyElem->GetText() == myElem.getValue());
+        }
+
     }
+
+    /***********************************************************************************************
+    * Test für das Iterieren von XML-Dateien
+    ************************************************************************************************/
+
+    Xml file2;
+    REQUIRE(file2.init("testfiles/test2.xml") == true);
+
+    SECTION("checking that iterating over many children works and terminates correctly")
+    {
+        //Wenn kein Kind mehr vorhanden ist sollte null zurückgegeben werden
+        XMLElement* tinyElem = file2.rootElement().getXMLElement()->FirstChildElement();
+        XmlElement myElem = file2.rootElement()[""]; // equivalent zu ... = file2.rootElement().firstChildElement()
+
+        while(myElem.isNotNull() )
+        {
+            REQUIRE(tinyElem->GetText() == myElem.getValue());
+            //Nächstes Element "anwählen"
+            tinyElem = tinyElem->NextSiblingElement();
+            ++myElem;
+        }
+
+    }
+
+
+
 
 
 
