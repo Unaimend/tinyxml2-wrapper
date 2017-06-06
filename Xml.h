@@ -43,6 +43,10 @@
             Xml Arguemnts support
             Tests prorammieren
             Component Xml iterieren
+            LastChildElement
+            getElemName sollte ne Ref. zurückgeben
+            Getter und Setter sollte thrown falls der zugegriffene Node null ist
+            Hab so das Gefühle das die Setter failen, da getFirstChild und operator[] keine Ref, zurückgeben
  *************************************/
 
 /***************************************************
@@ -84,15 +88,24 @@ namespace eng
          ***********************************************/
         void setValue(const std::string& value)
         {
-            mNode->SetText(value.c_str());
+            if(mNode != nullptr)
+            {
+                mNode->SetText(value.c_str());
+            }
         }
         void setValue(const double value)
         {
-            setValue(std::to_string(value));
+            if(mNode != nullptr)
+            {
+                setValue(std::to_string(value));
+            }
         }
         void setValue(const int32 value)
         {
-             setValue(std::to_string(value));
+            if(mNode != nullptr)
+            {
+                setValue(std::to_string(value));
+            }
         }
         
         
